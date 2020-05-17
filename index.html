@@ -18,8 +18,8 @@
 
                                 <div class="col-12">
                                     <div v-if="loading">
-                                        <div class="card bg-dark text-white text-center">
-                                            <div class="card-body">Loading</div>
+                                        <div class="col-md-12 text-center">
+                                            <h4><div class="card-body">Loading ...</div></h4>
                                         </div>
                                     </div>
                                     <div v-if="checkApiAlive" class="row m-0 mt-2">
@@ -36,7 +36,7 @@
                                             <h4>
                                                 Unable to get status from <a target="_blank" href="https://status.mojang.com/check">Mojang API</a>
                                             </h4>
-                                    </div>
+                                        </div></div>
                                     <hr>
                                     <p class="col-12  text-center copyright">Bugjang-Status © 2020</p>
                                 </div>
