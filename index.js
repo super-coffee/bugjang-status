@@ -11,19 +11,33 @@ var bugjangStatus = new Vue({
             green: `${baseStyle} bg-success`,
         },
     },
-    mounted() {
-        axios({
-            url: "https://status.mojang.com/check",
-            method: "get",
-        })
-            .then(function (response) {
-                bugjangStatus.servicesList = response.data;
-            })
-            .catch(function (error) {
-                bugjangStatus.checkApiAlive = false;
-            })
-            .then(function () {
-                bugjangStatus.loading = false;
-            });
+    created() {
+        configToastr();
+        getStatus();
     },
 });
+
+function getStatus () {
+    axios({
+        url: "https://status.mojang.com/check",
+        method: "get",
+    })
+        .then(function (response) {
+            bugjangStatus.servicesList = response.data;
+            throw new Error("a error for debug, you can remove this");
+            toastr.success("Loaded status");
+        })
+        .catch(function (error) {
+            bugjangStatus.checkApiAlive = false;
+            toastr.error("Unable to get status");
+        })
+        .then(function () {
+            bugjangStatus.loading = false;
+        });
+}
+
+function configToastr () {
+    toastr.options = {
+        positionClass: "toast-bottom-right",
+    };
+}
