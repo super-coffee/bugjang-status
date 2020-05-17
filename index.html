@@ -23,7 +23,7 @@
                                         </div>
                                     </div>
                                     <div v-if="checkApiAlive" class="row m-0 mt-2">
-                                        <div v-for="service in servicesList">
+                                        <div class="col-md-4" v-for="service in servicesList">
                                             <div v-for="(status, sName, _) in service">
                                                 <div v-bind:class="styleMap[status]">
                                                     <div class="card-body">{{ sName }}</div>
