@@ -24,7 +24,7 @@ function getStatus () {
     })
         .then(function (response) {
             bugjangStatus.servicesList = response.data;
-            throw new Error("a error for debug, you can remove this");
+            // throw new Error("a error for debug, you can remove this");
             toastr.success("Loaded status");
         })
         .catch(function (error) {
