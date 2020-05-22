@@ -1,3 +1,4 @@
+// Settings
 var baseStyle = "card text-white text-center m-2";
 var apiInfo = {
     url: "https://status.mojang.com/check",
@@ -5,6 +6,7 @@ var apiInfo = {
 };
 var loadedDelayTime = 1500;
 
+// Vue app
 var bugjangStatus = new Vue({
     el: "#bugjangStatus",
     data: {
@@ -44,12 +46,12 @@ var bugjangStatus = new Vue({
     },
 });
 
+// Functions
 function getApiStatus(vueObj) {
     vueObj.loadButtonStatus = "loading";
     axios(apiInfo)
         .then(function (response) {
             vueObj.servicesList = response.data;
-            // throw new Error("a error for debug, you can remove this");
             toastr.success("Loaded status");
             loadedSuccessfully(vueObj);
         })
@@ -70,7 +72,6 @@ function refreshApiStatus(vueObj) {
     axios(apiInfo)
         .then(function (response) {
             vueObj.servicesList = response.data;
-            // throw new Error("a error for debug, you can remove this");
             toastr.success(`Refreshed status at ${getTime()}`);
             loadedSuccessfully(vueObj);
         })
