@@ -28,7 +28,7 @@ Without these libs, it is impossible for me and my team to build this project.
 
 # Deployment
 This is also **very easy**!
-1. Download the latest release from [*Releases*](./releases).  
+1. Download the latest release from [*Releases*](https://github.com/super-coffee/bugjang-status/releases).  
 Or use `$ git clone https://github.com/super-coffee/bugjang-status.git`.
 2. Decompress the file you have downloaded.
 3. ~~YOU KNOW WHAT TO DO NEXT~~ 😋
