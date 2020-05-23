@@ -6,7 +6,7 @@
 // (new Date ()). Format ("yyyy-MM-dd HH: mm: ss.S") ==> 2006-07-02 08: 09: 04.423
 // (new Date ()). Format ("yyyy-M-d H: m: s.S") ==> 2006-7-2 8: 9: 4.18
 // 
-// author: meizz 
+// Author: meizz 
 Date.prototype.Format = function (fmt) { 
     var o = {
         "M+": this.getMonth() + 1,
