@@ -4,7 +4,13 @@ var apiInfo = {
     url: "https://status.mojang.com/check",
     method: "get",
 };
-var loadedDelayTime = 1500;
+var loadButtonStatusList = {
+    waiting: "waiting",
+    loading: "loading",
+    success: "success",
+    failed: "failed",
+}
+var loadedDelayTime = 1500;  // ms
 
 // Vue app
 var bugjangStatus = new Vue({
@@ -13,7 +19,7 @@ var bugjangStatus = new Vue({
         servicesList: [],
         checkApiAlive: true,
         isLoading: true,
-        loadButtonStatus: "loading",
+        loadButtonStatus: loadButtonStatusList.loading,
         responseTime: null,
         styleClassMap: {
             card: {
@@ -22,17 +28,17 @@ var bugjangStatus = new Vue({
                 green: `${baseStyle} bg-success`,
             },
             loadButton: {
-                wait: "fa fa-refresh",
+                waiting: "fa fa-refresh",
                 loading: "fa fa-refresh fa-spin",
                 success: "fa fa-check",
-                failure: "fa fa-times",
+                failed: "fa fa-times",
             },
         },
     },
     computed: {
         disableLoadButton: function () {
             var status = this.loadButtonStatus;
-            return status == "loading" || status == "success";
+            return status == loadButtonStatusList.loading || status == loadButtonStatusList.success;
         }
     },
     methods: {
@@ -48,7 +54,7 @@ var bugjangStatus = new Vue({
 
 // Functions
 function getApiStatus(vueObj) {
-    vueObj.loadButtonStatus = "loading";
+    vueObj.loadButtonStatus = loadButtonStatusList.loading;
     axios(apiInfo)
         .then(function (response) {
             vueObj.servicesList = response.data;
@@ -63,16 +69,16 @@ function getApiStatus(vueObj) {
         })
         .then(function () {
             vueObj.isLoading = false;
-            vueObj.responseTime = getTime();
+            vueObj.responseTime = getCurrentTime();
         });
 };
 
 function refreshApiStatus(vueObj) {
-    vueObj.loadButtonStatus = "loading";
+    vueObj.loadButtonStatus = loadButtonStatusList.loading;
     axios(apiInfo)
         .then(function (response) {
             vueObj.servicesList = response.data;
-            toastr.success(`Refreshed status at ${getTime()}`);
+            toastr.success(`[${getCurrentTime()}] Refreshed status`);
             loadedSuccessfully(vueObj);
         })
         .catch(function (error) {
@@ -81,7 +87,7 @@ function refreshApiStatus(vueObj) {
             loadedFailed(vueObj);
         })
         .then(function () {
-            vueObj.responseTime = getTime();
+            vueObj.responseTime = getCurrentTime();
         });
 };
 
@@ -93,20 +99,22 @@ function configToastr() {
 
 function loadedSuccessfully(vueObj) {
     vueObj.checkApiAlive = true;
-    vueObj.loadButtonStatus = "success";
+    vueObj.loadButtonStatus = loadButtonStatusList.success;
     setTimeout(function () {
-        vueObj.loadButtonStatus = "wait";
+        vueObj.loadButtonStatus = loadButtonStatusList.waiting;
     }, loadedDelayTime);
 };
 
 function loadedFailed(vueObj) {
     vueObj.checkApiAlive = false;
-    vueObj.loadButtonStatus = "failure";
+    vueObj.loadButtonStatus = loadButtonStatusList.failed;
     setTimeout(function () {
-        vueObj.loadButtonStatus = "wait";
+        vueObj.loadButtonStatus = loadButtonStatusList.waiting;
     }, loadedDelayTime);
 };
 
-function getTime() {
-    return new Date().Format("yyyy-MM-dd hh:mm:ss");
+function getCurrentTime() {
+    // require formatTime.js
+    var timeFormat = "yyyy-MM-dd hh:mm:ss";
+    return new Date().Format(timeFormat);
 };
